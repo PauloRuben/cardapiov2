@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Cardápio - Pizzaria Paraíso</title>
+    <style>
+        :root {
+            --primary-color: #e74c3c;
+            --secondary-color: #f39c12;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --drink-color: #3498db;
+            --portion-color: #2ecc71;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            padding-bottom: 50px;
+        }
+        
+        header {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        header p {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        
+        .logo {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 15px;
+            border-radius: 50%;
+            border: 3px solid white;
+            object-fit: cover;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin: 30px 0 20px;
+            position: relative;
+            color: var(--dark-color);
+        }
+        
+        .section-title h1 {
+            display: inline-block;
+            background-color: white;
+            padding: 0 15px;
+            position: relative;
+            z-index: 1;
+            font-size: 1.8rem;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--secondary-color);
+            z-index: 0;
+        }
+        
+        .price-tag {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-left: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .drink-price-tag {
+            background-color: var(--drink-color);
+        }
+        
+        .portion-price-tag {
+            background-color: var(--portion-color);
+        }
+        
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 0 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            width: 100%;
+            max-width: 350px;
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 15px;
+        }
+        
+        @media (min-width: 768px) {
+            .card {
+                width: calc(50% - 20px);
+            }
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-img-top {
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .card-body {
+            padding: 15px;
+        }
+        
+        .card-title {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        
+        .drink-card .card-title {
+            color: var(--drink-color);
+        }
+        
+        .portion-card .card-title {
+            color: var(--portion-color);
+        }
+        
+        .card-text {
+            color: #555;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+        
+        .card-price {
+            font-weight: bold;
+            color: var(--dark-color);
+            font-size: 1.1rem;
+        }
+        
+        .drink-section {
+            background-color: #f0f8ff;
+            padding: 20px 0;
+            margin-top: 30px;
+        }
+        
+        .portion-section {
+            background-color: #f0fff4;
+            padding: 20px 0;
+            margin-top: 30px;
+        }
+        
+        .drink-category, .portion-category {
+            margin-bottom: 25px;
+        }
+        
+        .drink-category-title, .portion-category-title {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .drink-category-title {
+            color: var(--drink-color);
+        }
+        
+        .portion-category-title {
+            color: var(--portion-color);
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+            margin-top: 40px;
+        }
+        
+        .contact-info {
+            margin-bottom: 15px;
+        }
+        
+        .contact-info p {
+            margin-bottom: 5px;
+            font-size: 0.95rem;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 1.3rem;
+            margin: 0 8px;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .disclaimer {
+            font-size: 0.8rem;
+            margin-top: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+        }
+        
+        .floating-whatsapp {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        
+        .floating-whatsapp:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Responsividade para celulares */
+        @media (max-width: 576px) {
+            header {
+                padding: 30px 15px;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .logo {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .section-title h1 {
+                font-size: 1.5rem;
+                padding: 0 10px;
+            }
+            
+            .price-tag {
+                font-size: 0.8rem;
+                padding: 2px 10px;
+            }
+            
+            .card {
+                max-width: 100%;
+            }
+            
+            .card-img-top {
+                height: 150px;
+            }
+            
+            .card-title {
+                font-size: 1.1rem;
+            }
+            
+            .card-text {
+                font-size: 0.9rem;
+            }
+            
+            .floating-whatsapp {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title h1 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://via.placeholder.com/100" alt="Logo Pizzaria Paraíso" class="logo">
+        <h1>Pizzaria Paraíso</h1>
+        <p class="lead">As melhores pizzas de Valparaíso</p>
+        <p><i class="fas fa-phone-alt"></i> (12) 3456-7890 | <i class="fas fa-map-marker-alt"></i> Rua das Pizzas, 123</p>
+    </header>
+    
+    <main class="container-fluid">
+        <!-- Pizzas Tradicionais -->
+        <div class="section-title">
+            <h1>Pizzas Tradicionais <span class="price-tag">R$ 33,99</span></h1>
+        </div>
+        
+        <div class="cards-container">
+            <!-- Card 1 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1571066811602-716837d681de?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Pizza Romeu e Julieta">
+                <div class="card-body">
+                    <h5 class="card-title">Romeu e Julieta</h5>
+                    <p class="card-text">Mussarela, doce de goiabada e creme de leite. Uma combinação doce e salgada irresistível.</p>
+                </div>
+            </div>
+            
+            <!-- Card 2 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1593504049359-74330189a345?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Pizza Banana">
+                <div class="card-body">
+                    <h5 class="card-title">Banana</h5>
+                    <p class="card-text">Mussarela, banana, canela e leite condensado. Um clássico da culinária brasileira.</p>
+                </div>
+            </div>
+            
+            <!-- Card 3 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Pizza Milho">
+                <div class="card-body">
+                    <h5 class="card-title">Milho</h5>
+                    <p class="card-text">Molho especial de tomate, mussarela, milho e orégano. Simples e deliciosa.</p>
+                </div>
+            </div>
+            
+            <!-- Card 4 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Pizza Presunto">
+                <div class="card-body">
+                    <h5 class="card-title">Presunto</h5>
+                    <p class="card-text">Molho especial de tomate, mussarela, presunto e orégano. O tradicional que nunca sai de moda.</p>
+                </div>
+            </div>
+            
+            <!-- Card 5 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1541745537411-b8046dc6d66c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Pizza Tomate">
+                <div class="card-body">
+                    <h5 class="card-title">Tomate</h5>
+                    <p class="card-text">Molho especial de tomate, mussarela, tomate fresco, cebola e orégano. Frescor em cada pedaço.</p>
+                </div>
+            </div>
+            
+            <!-- Card 6 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1565299585323-38f6e5b81fb3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Pizza Napolitana">
+                <div class="card-body">
+                    <h5 class="card-title">Napolitana</h5>
+                    <p class="card-text">Molho especial de tomate, mussarela, presunto, tomate, cebola, azeitona e orégano. Completa e saborosa.</p>
+                </div>
+            </div>
+            
+            <!-- Card 7 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Pizza Calabresa">
+                <div class="card-body">
+                    <h5 class="card-title">Calabresa /com tomate</h5>
+                    <p class="card-text">Molho especial de tomate, mussarela, calabresa e orégano(ou com tomate). Um dos sabores mais pedidos.</p>
+
+                </div>
+            </div>
+            
+            <!-- Card 8 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1544982503-9f984c14501a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Pizza Mussarela">
+                <div class="card-body">
+                    <h5 class="card-title">Mussarela</h5>
+                    <p class="card-text">Molho especial de tomate, mussarela e orégano. Simplesmente irresistível.</p>
+                </div>
+            </div>
+            
+            <!-- Card 9 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1579751626658-72bc104c1cca?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Pizza Marguerita">
+                <div class="card-body">
+                    <h5 class="card-title">Marguerita</h5>
+                    <p class="card-text">Molho especial de tomate, mussarela, tomate e orégano. Clássica e sempre perfeita.</p>
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- Pizzas Especiais -->
+        <div class="section-title">
+            <h1>Pizzas Especiais</h1>
+        </div>
+        
+        <div class="cards-container">
+            <!-- Card 1 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1595854341625-f33ee10dbf94?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Pizza 4 Queijos">
+                <div class="card-body">
+                    <h5 class="card-title">4 Queijos</h5>
+                    <p class="card-text">Molho de tomate especial, mussarela, queijo prato, parmesão e provolone. Para os amantes de queijo!</p>
+                    <p class="card-price">R$ 56,99</p>
+                </div>
+            </div>
+            
+            <!-- Card 2 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1601924582970-9238bcb495d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Pizza Carne com Mandioca">
+                <div class="card-body">
+                    <h5 class="card-title">Carne Cozida com Mandioca</h5>
+                    <p class="card-text">Molho de tomate especial, mussarela, lagarto cozido, mandioca, cebola e orégano. Sabor único!</p>
+                    <p class="card-price">R$ 47,99</p>
+                </div>
+            </div>
+            
+            <!-- Card 3 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1590947132387-155cc02f3212?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Pizza Chocolate com M&M">
+                <div class="card-body">
+                    <h5 class="card-title">Chocolate com M&M</h5>
+                    <p class="card-text">Mussarela, chocolate e M&M. A preferida da garotada!</p>
+                    <p class="card-price">R$ 40,99</p>
+                </div>
+            </div>
+            
+            <!-- Card 4 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1593246049226-ded77bf90326?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Pizza Frango com Catupiry">
+                <div class="card-body">
+                    <h5 class="card-title">Pizza Coração De Frango</h5>
+                    <p class="card-text">Molho Especial de Tomate, Mussarela ,Coração de Frango cebola e Oregano</p>
+                    <p class="card-price">R$ 61,99</p>
+                </div>
+            </div>
+            
+            <!-- Card 5 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1595708684082-a173bb3a06c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Pizza Portuguesa">
+                <div class="card-body">
+                    <h5 class="card-title">Pizza Rapadura</h5>
+                    <p class="card-text">Mussarela ,Rapadura e Queijo Coalho</p>
+                    <p class="card-price">R$ 40,99</p>
+                </div>
+            </div>
+            
+            <!-- Card 6 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1601924582970-9238bcb495d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Pizza Calabresa Especial">
+                <div class="card-body">
+                    <h5 class="card-title">Pizza PRESTÍGIO</h5>
+                    <p class="card-text">Mussarela,Chocolate e Cocô Ralado</p>
+                    <p class="card-price">R$ 35,99</p>
+                </div>
+              </div>
+
+            <!-- Card 7-->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1601924582970-9238bcb495d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Pizza Calabresa Especial">
+                <div class="card-body">
+                    <h5 class="card-title">Pizza PRESTÍGIO</h5>
+                    <p class="card-text">Mussarela,Chocolate e Cocô Ralado</p>
+                    <p class="card-price">R$ 35,99</p>
+                </div>
+            </div>
+
+            <!-- Card 8-->
+            <div class="card">
+              <img src="https://images.unsplash.com/photo-1601924582970-9238bcb495d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Pizza Calabresa Especial">
+              <div class="card-body">
+                  <h5 class="card-title">Pizza BEIJINHO</h5>
+                  <p class="card-text">Mussarela,Côco Ralado e Leite Condesado</p>
+                  <p class="card-price">R$ 35,99</p>
+              </div>
+            </div>
+
+            <!-- Card 9-->
+            <div class="card">
+              <img src="https://images.unsplash.com/photo-1601924582970-9238bcb495d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Pizza Calabresa Especial">
+              <div class="card-body">
+                  <h5 class="card-title">Pizza CHOCOLATE</h5>
+                  <p class="card-text">Mussarela e Chocolate</p>
+                  <p class="card-price">R$ 33,99</p>
+              </div>
+            </div>                       
+        </div>
+        
+        <!-- Porções de Fritas -->
+        <div class="portion-section">
+            <div class="section-title">
+                <h1>Porções de Fritas</h1>
+            </div>
+            
+            <div class="cards-container">
+                <!-- Porção 1 -->
+                <div class="card portion-card">
+                    <img src="https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Batata Frita Simples">
+                    <div class="card-body">
+                        <h5 class="card-title">Batata Frita Simples</h5>
+                        <p class="card-text">Porção de batata frita crocante, temperada com sal e ervas finas.</p>
+                        <p class="card-price">R$ 18,99</p>
+                    </div>
+                </div>
+                
+                <!-- Porção 2 -->
+                <div class="card portion-card">
+                    <img src="https://images.unsplash.com/photo-1580310614655-3e1b01a8a0a4?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Batata Frita com Cheddar e Bacon">
+                    <div class="card-body">
+                        <h5 class="card-title">Batata com Cheddar e Bacon</h5>
+                        <p class="card-text">Batata frita coberta com cheddar derretido e bacon crocante.</p>
+                        <p class="card-price">R$ 28,99</p>
+                    </div>
+                </div>
+                
+                <!-- Porção 3 -->
+                <div class="card portion-card">
+                    <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Batata Frita com Calabresa">
+                    <div class="card-body">
+                        <h5 class="card-title">Batata com Calabresa</h5>
+                        <p class="card-text">Batata frita com calabresa fatiada e temperada com cebola.</p>
+                        <p class="card-price">R$ 24,99</p>
+                    </div>
+                </div>
+                
+                <!-- Porção 4 -->
+                <div class="card portion-card">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Batata Frita com Frango">
+                    <div class="card-body">
+                        <h5 class="card-title">Batata com Frango</h5>
+                        <p class="card-text">Batata frita com frango desfiado temperado e catupiry.</p>
+                        <p class="card-price">R$ 26,99</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bebidas -->
+        <div class="drink-section">
+            <div class="section-title">
+                <h1>Bebidas</h1>
+            </div>
+            
+            <!-- Refrigerantes -->
+            <div class="drink-category">
+                <h2 class="drink-category-title">Refrigerantes <span class="price-tag drink-price-tag">350ml - R$ 6,00 | 1L - R$ 10,00</span></h2>
+                <div class="cards-container">
+                    <div class="card drink-card">
+                        <img src="https://images.unsplash.com/photo-1553456558-aff63285bdd1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Refrigerantes">
+                        <div class="card-body">
+                            <h5 class="card-title">Refrigerantes Variados</h5>
+                            <p class="card-text">Coca-Cola, Guaraná, Fanta, Sprite, Pepsi e mais. Geladinhos!</p>
+                            <p class="card-price">350ml: R$ 6,00 | 1L: R$ 10,00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sucos -->
+            <div class="drink-category">
+                <h2 class="drink-category-title">Sucos Naturais <span class="price-tag drink-price-tag">R$ 8,00</span></h2>
+                <div class="cards-container">
+                    <div class="card drink-card">
+                        <img src="https://images.unsplash.com/photo-1603569283847-aa295f0d016a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Sucos">
+                        <div class="card-body">
+                            <h5 class="card-title">Sucos Naturais</h5>
+                            <p class="card-text">Laranja, Abacaxi, Maracujá, Limão, Morango e Manga. Feitos na hora!</p>
+                            <p class="card-price">500ml: R$ 8,00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Cervejas -->
+            <div class="drink-category">
+                <h2 class="drink-category-title">Cervejas <span class="price-tag drink-price-tag">R$ 7,00 - R$ 12,00</span></h2>
+                <div class="cards-container">
+                    <div class="card drink-card">
+                        <img src="https://images.unsplash.com/photo-1618889482923-38250401a84e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Cervejas">
+                        <div class="card-body">
+                            <h5 class="card-title">Cervejas</h5>
+                            <p class="card-text">Skol, Brahma, Heineken, Stella Artois, Budweiser e artesanais locais.</p>
+                            <p class="card-price">Long Neck: R$ 7,00 | 600ml: R$ 12,00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Águas -->
+            <div class="drink-category">
+                <h2 class="drink-category-title">Água e Outros<span class="price-tag drink-price-tag">R$ 4,00 - R$ 8,00</span></h2>
+                <div class="cards-container">
+                    <div class="card drink-card">
+                        <img src="https://images.unsplash.com/photo-1568484801951-f23c222f6096?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="Águas">
+                        <div class="card-body">
+                            <h5 class="card-title">Águas e Outros</h5>
+                            <p class="card-text">Água mineral, água com gás, água tônica, energéticos e drinks sem álcool.</p>
+                            <p class="card-price">500ml: R$ 4,00 | 1L: R$ 6,00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="contact-info">
+                <h3>Faça seu pedido!</h3>
+                <p><i class="fas fa-phone-alt"></i> (12) 3456-7890</p>
+                <p><i class="fas fa-mobile-alt"></i> (12) 98765-4321</p>
+                <p><i class="fas fa-map-marker-alt"></i> Rua das Pizzas, 123 - Valparaíso</p>
+            </div>
+            
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+            </div>
+            
+            <p class="disclaimer">* Imagens meramente ilustrativas. <br> Horário de funcionamento: Terça a Domingo, das 18h às 23h.</p>
+        </div>
+    </footer>
+    
+    <a href="https://wa.me/5512987654321" class="floating-whatsapp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
